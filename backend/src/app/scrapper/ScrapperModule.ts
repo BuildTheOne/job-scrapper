@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import JobRepository from 'src/repositories/JobRepository';
+import JobRepository from '../../repositories/JobRepository';
 import ScrapperService from './ScrapperService';
 
 @Module({

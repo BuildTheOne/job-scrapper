@@ -1,7 +1,7 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import BaseResponse from 'src/common/BaseResponse';
-import { JobRequest } from 'src/components/Job/JobRequest';
-import prismaClient from 'src/config/prisma';
+import BaseResponse from '../common/BaseResponse';
+import { JobRequest } from '../components/Job/JobRequest';
+import prismaClient from '../config/prisma';
 
 @Injectable()
 class JobRepository {

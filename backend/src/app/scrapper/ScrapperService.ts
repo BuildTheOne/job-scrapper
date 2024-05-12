@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Source } from '@prisma/client';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NODE_ENV } from '../../config/constant';
 import JobRepository from '../../repositories/JobRepository';
 

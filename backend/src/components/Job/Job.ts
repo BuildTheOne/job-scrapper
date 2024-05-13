@@ -1,6 +1,6 @@
 import { Source } from '@prisma/client';
 
-export interface JobRequest {
+export interface JobInterface {
   title: string;
   publicationDate: Date;
   location: string;

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
+import { config } from 'dotenv';
 import { AppModule } from './AppModule';
 import prismaClient from './config/prisma';
-import { config } from 'dotenv';
 
 (async () => {
   config({

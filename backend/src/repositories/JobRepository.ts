@@ -1,11 +1,11 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import BaseResponse from '../common/BaseResponse';
-import { JobRequest } from '../components/Job/JobRequest';
+import { JobInterface } from '../components/Job/Job';
 import prismaClient from '../config/prisma';
 
 @Injectable()
 class JobRepository {
-  async findAllRepository() {
+  async findAllJobs() {
     try {
       return await prismaClient.job.findMany({});
     } catch (error) {
@@ -15,7 +15,7 @@ class JobRepository {
     }
   }
 
-  async addJob(data: JobRequest) {
+  async addJob(data: JobInterface) {
     try {
       return await prismaClient.job.create({
         data: data,

@@ -7,7 +7,7 @@ class ScrapperController {
 
   @Get('scrap-job')
   scrapJobData() {
-    return this.scrapperService.activate();
+    return this.scrapperService.activateScrapper();
   }
 }
 

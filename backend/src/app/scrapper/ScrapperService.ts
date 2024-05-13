@@ -1,21 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { Source } from '@prisma/client';
 import moment from 'moment';
-import { NODE_ENV } from '../../config/constant';
 import JobRepository from '../../repositories/JobRepository';
 
 @Injectable()
 class ScrapperService {
   constructor(private jobRepository: JobRepository) {}
 
-  // @Cron(CronExpression.EVERY_DAY_AT_1AM)
-  @Cron(
-    NODE_ENV == 'production'
-      ? CronExpression.EVERY_5_MINUTES
-      : CronExpression.EVERY_10_SECONDS,
-  )
-  async activate() {
+  async activateScrapper() {
     await this.scrapJobData();
   }
 

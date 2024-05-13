@@ -17,11 +17,5 @@
                 "DELETE"
             ]
         }
-    ],
-    "crons": [
-        {
-            "path": "/scrap-job",
-            "schedule": "22 7 * * *"
-        }
     ]
 }

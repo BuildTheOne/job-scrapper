@@ -10,7 +10,7 @@ datasource db {
 model Job {
   jobId           String   @id @default(uuid())
   title           String   @db.VarChar(255)
-  publicationDate DateTime
+  publicationDate DateTime @db.Date
   location        String   @db.VarChar(255)
   company         String   @db.VarChar(255)
   url             String   @unique

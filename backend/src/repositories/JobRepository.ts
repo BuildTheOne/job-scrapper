@@ -14,6 +14,11 @@ class JobRepository {
             contains: query.title,
             mode: 'insensitive',
           },
+          publicationDate: {
+            equals: query.publicationDate
+              ? new Date(query.publicationDate)
+              : undefined,
+          },
           location: {
             contains: query.location,
             mode: 'insensitive',
@@ -25,6 +30,7 @@ class JobRepository {
         },
       });
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(
         BaseResponse.error<null>(HttpStatus.BAD_REQUEST, 'Error', null),
       );

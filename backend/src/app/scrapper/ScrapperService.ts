@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { Source } from '@prisma/client';
-import moment from 'moment';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import JobRepository from '../../repositories/JobRepository';
+import scrapperJobstreet from './components/JobstreetScrapper';
+import scrapperKalibrr from './components/KalibrrScrapper';
+import scrapperKarir from './components/KarirScrapper';
+import scrapperLinkedin from './components/LinkedinScrapper';
 
 @Injectable()
 class ScrapperService {
   constructor(private jobRepository: JobRepository) {}
 
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async activateScrapper() {
     await this.scrapJobData();
   }
 
   async scrapJobData() {
     console.log('job scrapper start');
-    await this.jobRepository.addJob({
-      title: `job ${this.randomString(4)}`,
-      publicationDate: moment().toDate(),
-      location: 'jkt',
-      company: 'pt abc',
-      url: this.randomString(),
-      source: Source.KALIBRR,
-    });
+    // await this.jobRepository.addJob({
+    //   title: `job ${this.randomString(4)}`,
+    //   publicationDate: moment().toDate(),
+    //   location: 'jkt',
+    //   company: 'pt abc',
+    //   url: this.randomString(),
+    //   source: Source.KALIBRR,
+    // });
+
+    await scrapperKarir();
+    await scrapperJobstreet();
+    await scrapperKalibrr();
+    await scrapperLinkedin();
+
     console.log('job scrapper finish');
   }
 

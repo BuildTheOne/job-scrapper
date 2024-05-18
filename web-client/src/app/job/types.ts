@@ -9,7 +9,7 @@ export interface Job {
 
 export interface JobSearchQuery {
   title?: string;
-  publicationDate?: Date;
+  publicationDate?: Date | undefined;
   location?: string;
   company?: string;
 }

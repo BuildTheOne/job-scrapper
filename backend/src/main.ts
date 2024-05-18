@@ -8,7 +8,9 @@ import prismaClient from './config/prisma';
     path: '.env',
   });
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
 
   await app.listen(3000, async () => {
     try {

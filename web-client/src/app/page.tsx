@@ -1,6 +1,6 @@
-import { columns } from "./columns";
-import JobTable from "./table";
-import { Job } from "./types";
+import { columns } from "./job/columns";
+import JobTable from "./job/table";
+import { Job } from "./job/types";
 
 async function Home() {
   const url = "http://localhost:3000/api/job";

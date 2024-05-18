@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import * as moment from 'moment';
 import BaseResponse from '../../common/BaseResponse';
 import JobRepository from '../../repositories/JobRepository';
 import { SearchJobQuery } from './JobQuery';

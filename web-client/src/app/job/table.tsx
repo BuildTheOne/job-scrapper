@@ -35,10 +35,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
-import { JobSearchQuery } from "./types";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { useState } from "react";
+import searchJob from "./actions";
+import { JobSearchQuery } from "./types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,8 +48,9 @@ interface DataTableProps<TData, TValue> {
 
 function JobTable<TData, TValue>({
   columns,
-  data,
+  // data,
 }: DataTableProps<TData, TValue>) {
+  const [data, setData] = useState<TData[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -80,8 +82,12 @@ function JobTable<TData, TValue>({
     console.log("Job searching....");
     console.log({
       ...searchQuery,
-      publicationDate: searchQuery.publicationDate,
+      publicationDate: searchQuery.publicationDate
+        ? format(searchQuery.publicationDate, "yyyy-MM-dd")
+        : undefined,
     });
+    const jobData = await searchJob(searchQuery);
+    setData(jobData as TData[]);
   };
 
   return (

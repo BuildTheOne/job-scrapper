@@ -79,13 +79,6 @@ function JobTable<TData, TValue>({
   const handleSearchData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Job searching....");
-    console.log({
-      ...searchQuery,
-      publicationDate: searchQuery.publicationDate
-        ? format(searchQuery.publicationDate, "yyyy-MM-dd")
-        : undefined,
-    });
     const jobData = await searchJob(searchQuery);
     setData(jobData as TData[]);
   };

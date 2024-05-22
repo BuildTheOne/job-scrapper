@@ -3,9 +3,7 @@ import JobTable from "./job/table";
 import { Job } from "./job/types";
 
 async function Home() {
-  const url = "http://localhost:3000/api/job";
-
-  const jobRequest = await fetch(url);
+  const jobRequest = await fetch(`${process.env.API_URL}/api/job`);
   const jobResponse = await jobRequest.json();
   const jobData: Job[] = jobResponse.data;
 

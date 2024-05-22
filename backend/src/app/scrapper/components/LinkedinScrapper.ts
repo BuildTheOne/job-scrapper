@@ -1,9 +1,14 @@
-const linkedinUrl =
-  'https://www.linkedin.com/jobs/search?keywords=programmer&location=Indonesia&geoId=102478259&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0';
+import { Injectable } from '@nestjs/common';
+import JobRepository from 'src/repositories/JobRepository';
+import { linkedinUrl } from '../config/constant';
 
-const scrapperLinkedin = async () => {
-  console.log(`Scraping job data from LinkedIn...`);
-  console.log(linkedinUrl);
-};
+@Injectable()
+class LinkedinScrapper {
+  constructor(private jobRepository: JobRepository) {}
 
-export default scrapperLinkedin;
+  async scrapLinkedin() {
+    linkedinUrl;
+  }
+}
+
+export default LinkedinScrapper;

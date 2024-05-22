@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import JobRepository from '../../repositories/JobRepository';
-import scrapperJobstreet from './components/JobstreetScrapper';
-import scrapperKalibrr from './components/KalibrrScrapper';
-import scrapperKarir from './components/KarirScrapper';
-import scrapperLinkedin from './components/LinkedinScrapper';
-
+import puppeteer from 'puppeteer-core';
+import JobRepository from 'src/repositories/JobRepository';
+import JobstreetScrapper from './components/JobstreetScrapper';
+import KalibrrScrapper from './components/KalibrrScrapper';
+import KarirScrapper from './components/KarirScrapper';
+import LinkedinScrapper from './components/LinkedinScrapper';
 @Injectable()
 class ScrapperService {
-  constructor(private jobRepository: JobRepository) {}
+  constructor(
+    private jobRepository: JobRepository,
+    private karirScrapper: KarirScrapper,
+    private kalibrrScrapper: KalibrrScrapper,
+    private jobstreetScrapper: JobstreetScrapper,
+    private linkedinScrapper: LinkedinScrapper,
+  ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async activateScrapper() {
@@ -16,36 +22,30 @@ class ScrapperService {
   }
 
   async scrapJobData() {
-    console.log('job scrapper start');
-    // await this.jobRepository.addJob({
-    //   title: `job ${this.randomString(4)}`,
-    //   publicationDate: moment().toDate(),
-    //   location: 'jkt',
-    //   company: 'pt abc',
-    //   url: this.randomString(),
-    //   source: Source.KALIBRR,
-    // });
+    await this.jobRepository.deleteAllJob();
 
-    await scrapperKarir();
-    await scrapperJobstreet();
-    await scrapperKalibrr();
-    await scrapperLinkedin();
+    console.log('job scrapper start\n---------------------------');
 
-    console.log('job scrapper finish');
+    const browser = await puppeteer.launch({
+      headless: true,
+      executablePath:
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      args: [
+        `--no-sandbox`,
+        `--disable-gpu`,
+        `--disable-dev-shm-usage`,
+        `--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36`,
+        `--start-maximized`,
+      ],
+    });
+
+    // await this.karirScrapper.scrapKarir(browser);
+    await this.kalibrrScrapper.scrapeKalibrr(browser);
+    // await this.jobstreetScrapper.scrapJobstreet();
+    // await this.linkedinScrapper.scrapLinkedin();
+
+    console.log('---------------------------\njob scrapper finish');
   }
-
-  // FOR DEV PURPOSES - DONT FORGET TO DELETE
-  randomString = (length: number = 10) => {
-    const charList =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    let counter = 0;
-    while (counter < length) {
-      result += charList.charAt(Math.floor(Math.random() * charList.length));
-      counter += 1;
-    }
-    return result;
-  };
 }
 
 export default ScrapperService;

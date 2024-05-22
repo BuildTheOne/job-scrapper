@@ -48,6 +48,16 @@ class JobRepository {
       );
     }
   }
+
+  async deleteAllJob() {
+    try {
+      return await prismaClient.job.deleteMany({});
+    } catch (error) {
+      throw new BadRequestException(
+        BaseResponse.error<null>(HttpStatus.BAD_REQUEST, 'Error', null),
+      );
+    }
+  }
 }
 
 export default JobRepository;

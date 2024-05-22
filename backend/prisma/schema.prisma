@@ -13,7 +13,7 @@ model Job {
   publicationDate DateTime @db.Date
   location        String   @db.VarChar(255)
   company         String   @db.VarChar(255)
-  url             String   @unique
+  url             String
   source          Source
 }
 

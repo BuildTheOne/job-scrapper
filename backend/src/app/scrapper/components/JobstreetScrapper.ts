@@ -1,11 +1,14 @@
-const jobstreetUrl = `https://www.jobstreet.co.id/programmer-jobs`;
+import { Injectable } from '@nestjs/common';
+import JobRepository from 'src/repositories/JobRepository';
+import { jobstreetUrl } from '../config/constant';
 
-const scrapperJobstreet = async () => {
-  console.log(`Scraping job data from jobstreet.co.id...`);
-  console.log(jobstreetUrl);
+@Injectable()
+class JobstreetScrapper {
+  constructor(private jobRepository: JobRepository) {}
 
-  const res = await fetch(jobstreetUrl);
-  console.log(res);
-};
+  async scrapJobstreet() {
+    jobstreetUrl;
+  }
+}
 
-export default scrapperJobstreet;
+export default JobstreetScrapper;

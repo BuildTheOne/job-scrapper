@@ -186,7 +186,7 @@ function JobTable<TData, TValue>({
                     <div className="text-center">{row.index + 1}</div>
                   </TableCell>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

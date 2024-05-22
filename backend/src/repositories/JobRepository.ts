@@ -1,5 +1,5 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { SearchJobQuery } from 'src/app/api/JobQuery';
+import { SearchJobQuery } from '../app/api/JobQuery';
 import BaseResponse from '../common/BaseResponse';
 import prismaClient from '../config/prisma';
 import { JobInterface } from '../types/Job';

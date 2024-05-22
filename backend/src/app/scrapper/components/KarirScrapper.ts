@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Source } from '@prisma/client';
 import { Browser } from 'puppeteer-core';
-import JobRepository from 'src/repositories/JobRepository';
+import JobRepository from '../../../repositories/JobRepository';
 import { keywords } from '../config/constant';
 
 @Injectable()

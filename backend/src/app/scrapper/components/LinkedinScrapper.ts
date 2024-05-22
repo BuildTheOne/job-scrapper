@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import JobRepository from 'src/repositories/JobRepository';
+import JobRepository from '../../../repositories/JobRepository';
 import { linkedinUrl } from '../config/constant';
 
 @Injectable()

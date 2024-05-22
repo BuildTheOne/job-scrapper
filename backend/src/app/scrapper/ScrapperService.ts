@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import puppeteer from 'puppeteer-core';
-import JobRepository from 'src/repositories/JobRepository';
+import JobRepository from '../../repositories/JobRepository';
 import JobstreetScrapper from './components/JobstreetScrapper';
 import KalibrrScrapper from './components/KalibrrScrapper';
 import KarirScrapper from './components/KarirScrapper';

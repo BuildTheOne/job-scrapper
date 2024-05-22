@@ -38,7 +38,7 @@ class ScrapperService {
       ],
     });
 
-    // await this.karirScrapper.scrapeKarir(browser);
+    await this.karirScrapper.scrapeKarir(browser);
     await this.kalibrrScrapper.scrapeKalibrr(browser);
     await this.jobstreetScrapper.scrapeJobstreet(browser);
     await this.linkedinScrapper.scrapeLinkedin(browser);

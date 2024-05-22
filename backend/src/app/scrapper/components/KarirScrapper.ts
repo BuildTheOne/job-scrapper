@@ -3,6 +3,7 @@ import { Source } from '@prisma/client';
 import { Browser } from 'puppeteer-core';
 import JobRepository from '../../../repositories/JobRepository';
 import { keywords } from '../config/constant';
+import { convertKarirDate } from '../utils/convertKarirDate';
 
 @Injectable()
 class KarirScrapper {
@@ -13,42 +14,62 @@ class KarirScrapper {
   async scrapeKarir(browser: Browser) {
     console.log('scrap job from karir.com started...');
 
-    const jobBoxClass = '.jsx-4093401097';
-    const jobTitleClass = 'css-au5tz6';
-    const jobCompanyClass = 'css-rd4nzp';
-    const jobLocationClass = 'css-xl10kd';
-    const jobDateClass = 'css-1cyztla';
-    const jobSource = Source.KARIR;
+    const jobBoxClass = '.jsx-4093401097.container';
+    const jobCompanyDataClass = '.MuiTypography-root.MuiTypography-body1';
 
-    keywords.forEach(async (k) => {
-      const url = `${this.karirUrl}${k}`;
+    for (const keyword of keywords) {
+      const url = `${this.karirUrl}${keyword}`;
       try {
         const context = await browser.createBrowserContext();
         const page = await context.newPage();
+
         await page.goto(url);
 
+        await page.waitForSelector(jobBoxClass);
         const cards = await page.$$(jobBoxClass);
-        cards.forEach(async (card) => {
-          await card.waitForSelector(jobTitleClass);
-          const jobTitle = await card.$(jobTitleClass);
-          console.log(jobTitle);
-        });
+
+        for (const card of cards) {
+          await card.waitForSelector(jobCompanyDataClass);
+          const jobCompanyDataElement = await card.$$(jobCompanyDataClass);
+
+          const jobTitle = (
+            await jobCompanyDataElement[0].evaluate((el) => el.textContent)
+          ).trim();
+
+          const jobCompany = (
+            await jobCompanyDataElement[1].evaluate((el) => el.textContent)
+          ).trim();
+
+          const jobLocation = (
+            await jobCompanyDataElement[3].evaluate((el) => el.textContent)
+          ).trim();
+
+          const jobDate = (
+            await jobCompanyDataElement[5].evaluate((el) => el.textContent)
+          ).trim();
+          const jobDateFormatted = convertKarirDate(jobDate);
+
+          await card.waitForSelector('img');
+          const jobImageElement = await card.$$('.jsx-4093401097');
+          const jobImage = await jobImageElement[1].$eval('img', (el) =>
+            el.getAttribute('src'),
+          );
+
+          await this.jobRepository.addJob({
+            title: jobTitle,
+            publicationDate: jobDateFormatted,
+            location: jobLocation,
+            company: jobCompany,
+            url: jobImage,
+            source: Source.KARIR,
+          });
+        }
 
         await page.close();
       } catch (error) {
         console.log('error', error);
       }
-    });
-
-    // await this.jobRepository.addJob({
-    //   title: `job ${this.randomString(4)}`,
-    //   publicationDate: moment().toDate(),
-    //   location: 'jkt',
-    //   company: 'pt abc',
-    //   url: this.randomString(),
-    //   source: Source.KALIBRR,
-    // });
-
+    }
     console.log('scrap job from karir.com finished...');
   }
 }

@@ -25,7 +25,6 @@ class JobstreetScrapper {
 
     keywords.forEach(async (k) => {
       const url = `${this.jobstreetUrl}${k}-jobs?sortmode=ListedDate`;
-      console.log(url);
       try {
         const context = await browser.createBrowserContext();
         const page = await context.newPage();
@@ -80,15 +79,6 @@ class JobstreetScrapper {
       } catch (error) {
         console.log('error', error);
       }
-
-      // const jobs = await this.jobRepository.findAllJobs({});
-      // const seenUrls = new Set();
-      // jobs.forEach(async (job) => {
-      //   if (seenUrls.has(job.url)) {
-      //     return await this.jobRepository.deleteJob(job.jobId);
-      //   }
-      //   seenUrls.add(job.url);
-      // });
     });
   }
 }

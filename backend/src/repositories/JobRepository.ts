@@ -49,6 +49,20 @@ class JobRepository {
     }
   }
 
+  async deleteJob(jobId: string) {
+    try {
+      return await prismaClient.job.delete({
+        where: {
+          jobId: jobId,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException(
+        BaseResponse.error<null>(HttpStatus.BAD_REQUEST, 'Error', null),
+      );
+    }
+  }
+
   async deleteAllJob() {
     try {
       return await prismaClient.job.deleteMany({});

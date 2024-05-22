@@ -28,8 +28,7 @@ class ScrapperService {
 
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath:
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      executablePath: process.env.CHROME_BIN,
       args: [
         `--no-sandbox`,
         `--disable-gpu`,

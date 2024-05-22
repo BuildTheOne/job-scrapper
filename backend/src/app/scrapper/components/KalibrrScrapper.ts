@@ -78,6 +78,15 @@ class KalibrrScrapper {
       } catch (error) {
         console.log('error', error);
       }
+
+      const jobs = await this.jobRepository.findAllJobs({});
+      const seenUrls = new Set();
+      jobs.forEach(async (job) => {
+        if (seenUrls.has(job.url)) {
+          return await this.jobRepository.deleteJob(job.jobId);
+        }
+        seenUrls.add(job.url);
+      });
     });
   }
 }

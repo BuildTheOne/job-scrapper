@@ -38,10 +38,19 @@ class ScrapperService {
       ],
     });
 
-    // await this.karirScrapper.scrapKarir(browser);
+    // await this.karirScrapper.scrapeKarir(browser);
     await this.kalibrrScrapper.scrapeKalibrr(browser);
-    // await this.jobstreetScrapper.scrapJobstreet();
-    // await this.linkedinScrapper.scrapLinkedin();
+    await this.jobstreetScrapper.scrapeJobstreet(browser);
+    await this.linkedinScrapper.scrapeLinkedin(browser);
+
+    const jobs = await this.jobRepository.findAllJobs({});
+    const seenUrls = new Set();
+    jobs.forEach(async (job) => {
+      if (seenUrls.has(job.url)) {
+        return await this.jobRepository.deleteJob(job.jobId);
+      }
+      seenUrls.add(job.url);
+    });
 
     console.log('---------------------------\njob scrapper finish');
   }

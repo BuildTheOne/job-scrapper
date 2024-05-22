@@ -10,7 +10,7 @@ class KarirScrapper {
 
   constructor(private jobRepository: JobRepository) {}
 
-  async scrapKarir(browser: Browser) {
+  async scrapeKarir(browser: Browser) {
     console.log('scrap job from karir.com started...');
 
     const jobBoxClass = '.jsx-4093401097';

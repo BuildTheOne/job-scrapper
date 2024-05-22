@@ -12,7 +12,7 @@ import { AppModule } from './modules/AppModule';
     cors: true,
   });
 
-  await app.listen(3000, async () => {
+  await app.listen(9000, async () => {
     try {
       await prismaClient.$connect();
     } catch (err) {
